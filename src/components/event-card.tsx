@@ -15,13 +15,16 @@ interface EventCardProps {
 
 const findNextSession = (sessions: Schedule[]): Schedule | null => {
   const now = new Date().getTime();
-  const sortedSessions = [...sessions].sort((a, b) => a.startAt - b.startAt);
-  const upcomingSession = sortedSessions.find(s => s.startAt > now);
-
-  if (upcomingSession) {
-    return upcomingSession;
+  // Filter out sessions that have already passed
+  const upcomingSessions = sessions.filter(s => s.startAt > now);
+  
+  if (upcomingSessions.length > 0) {
+    // Sort upcoming sessions to find the next one
+    return upcomingSessions.sort((a, b) => a.startAt - b.startAt)[0];
   }
-  return sortedSessions.length > 0 ? sortedSessions[sortedSessions.length - 1] : null;
+
+  // If no upcoming sessions, return the last session to show "EVENTO FINALIZADO" correctly
+  return sessions.length > 0 ? sessions[sessions.length - 1] : null;
 };
 
 
@@ -45,7 +48,7 @@ export function EventCard({ event }: EventCardProps) {
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
           <p className="text-sm text-gray-400">{extra}</p>
       </div>
-      <div className="text-center bg-background p-4 rounded-lg">
+      <div id="countdown-container" className="text-center bg-background p-4 rounded-lg">
           {nextSession && nextSession.startAt > new Date().getTime() ? (
             <>
               <CountdownTimer targetDate={nextSession.startAt} />
@@ -55,11 +58,11 @@ export function EventCard({ event }: EventCardProps) {
              <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
           )}
       </div>
-       <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-2">
           {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
           <div className="flex gap-4 items-center h-8">
             {links.map(link => (
-                link.platformImage && <a href={link.link} target="_blank" rel="noopener noreferrer" key={link._id}><img src={link.platformImage} alt={link.platform} className="h-6 object-contain" /></a>
+                link.platformImage && <a href={link.link} target="_blank" rel="noopener noreferrer" key={link._id}><img src={link.platformImage} alt={link.platform} className="h-6 object-contain invert brightness-0" /></a>
             ))}
           </div>
       </div>
