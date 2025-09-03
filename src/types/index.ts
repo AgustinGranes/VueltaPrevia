@@ -5,13 +5,13 @@ export type Schedule = {
   confirmed: boolean;
   startAt: number; // timestamp
   _id: string;
-  raceName?: string;
 };
 
 export type Link = {
   _id: string;
   platform: string;
   link: string;
+  platformImage?: string; // Making it optional as it might not be in all events
 };
 
 export type Race = {
@@ -22,15 +22,11 @@ export type Race = {
   categoryShort: string;
   category: string;
   categoryId: string;
-  extra: string;
+  categoryImage?: string; // Add this field
+  extra: string; // Used for circuit name
   schedules: Schedule[];
   createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+  updatedAt:string; // ISO date string
   __v: number;
   links: Link[];
 };
-
-export type CategoryEvent = Race & {
-    races: Race[],
-    nextSession: Schedule | null;
-}

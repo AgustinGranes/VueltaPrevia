@@ -24,54 +24,57 @@ const calculateTimeLeft = (targetDate: number) => {
       seconds: Math.floor((difference / 1000) % 60),
     };
   }
-  return timeLeft;
+  return { timeLeft, difference };
 };
 
 export function CountdownTimer({ targetDate }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = useState<ReturnType<typeof calculateTimeLeft> | null>(null);
+  const [timeLeft, setTimeLeft] = useState<any>(null);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    // Moved the initial calculation to useEffect to ensure it only runs on the client.
-    setTimeLeft(calculateTimeLeft(targetDate));
-
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft(targetDate));
-    }, 1000);
+    const updateCountdown = () => {
+      const { timeLeft, difference } = calculateTimeLeft(targetDate);
+      setTimeLeft(timeLeft);
+      if (difference <= 0) {
+        setIsFinished(true);
+        clearInterval(timer);
+      }
+    };
+    
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
 
     return () => clearInterval(timer);
   }, [targetDate]);
 
+
+  if (isFinished) {
+    return (
+      <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
+    )
+  }
+
   if (!timeLeft) {
     return (
-      <div className="grid grid-cols-4 gap-2 text-center auto-cols-max animate-pulse">
-        {['days', 'hours', 'minutes', 'seconds'].map((interval) => (
-          <div key={interval} className="flex flex-col items-center">
-            <div className="text-2xl md:text-3xl font-bold text-primary font-mono tracking-tighter w-12 h-9 flex items-center justify-center">
-              <div className="bg-muted-foreground/20 rounded-md w-10 h-7"></div>
-            </div>
-            <div className="text-xs text-muted-foreground uppercase mt-1">{interval}</div>
-          </div>
-        ))}
+      <div id="timer" className="text-3xl md:text-4xl font-mono tracking-wider font-bold text-yellow-400 animate-pulse">
+        Calculando...
       </div>
     );
   }
 
-  const timerComponents = Object.entries(timeLeft).map(([interval, value]) => {
-    return (
-      <div key={interval} className="flex flex-col items-center">
-        <div className="text-2xl md:text-3xl font-bold text-primary font-mono tracking-tighter w-12">
-          {String(value).padStart(2, '0')}
-        </div>
-        <div className="text-xs text-muted-foreground uppercase">{interval}</div>
-      </div>
-    );
-  });
+  const f = (n: number) => (n < 10 ? '0' + n : n);
 
-  const isFinished = !Object.values(timeLeft).some(val => val > 0);
+  let countdownText = "";
+  if (timeLeft.days > 0) {
+      countdownText = `${timeLeft.days}d ${f(timeLeft.hours)}h ${f(timeLeft.minutes)}m ${f(timeLeft.seconds)}s`;
+  } else {
+      countdownText = `${f(timeLeft.hours)}:${f(timeLeft.minutes)}:${f(timeLeft.seconds)}`;
+  }
+
 
   return (
-    <div className="grid grid-cols-4 gap-2 text-center auto-cols-max">
-      {isFinished ? <div className="col-span-4 text-lg font-semibold text-accent">Session in progress</div> : timerComponents}
+    <div id="timer" className="text-3xl md:text-4xl font-mono tracking-wider font-bold text-yellow-400">
+      {countdownText}
     </div>
   );
 }

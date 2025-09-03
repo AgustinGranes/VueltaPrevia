@@ -1,125 +1,88 @@
-import type { CategoryEvent, Race } from '@/types';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import type { Race, Schedule } from '@/types';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Separator } from '@/components/ui/separator';
-import { Car, Flag, Trophy, Tv2, Star, Link as LinkIcon } from 'lucide-react';
 import { CountdownTimer } from './countdown-timer';
 import { format } from 'date-fns';
 import Image from 'next/image';
 
 interface EventCardProps {
-  event: CategoryEvent;
+  event: Race;
 }
 
-const categoryLogos: { [key: string]: React.ElementType } = {
-  'Fórmula 1': Car,
-  'Fórmula 2': Car,
-  'Fórmula 3': Car,
-  'WEC': Trophy,
-  'IndyCar': Flag,
-  'NASCAR Cup Series': Car,
-  default: Car,
+const findNextSession = (sessions: Schedule[]): Schedule | null => {
+  const now = new Date().getTime();
+  const sortedSessions = [...sessions].sort((a, b) => a.startAt - b.startAt);
+  const upcomingSession = sortedSessions.find(s => s.startAt > now);
+
+  if (upcomingSession) {
+    return upcomingSession;
+  }
+  // If no upcoming, return the last session to show "Finished"
+  return sortedSessions.length > 0 ? sortedSessions[sortedSessions.length - 1] : null;
 };
 
-const platformLogos: { [key: string]: React.ElementType } = {
-  youtube: Star,
-  disneyplus: Tv2,
-  default: LinkIcon
-};
 
 export function EventCard({ event }: EventCardProps) {
   const { 
     category,
+    categoryImage,
     name,
-    nextSession,
-    races,
+    schedules,
     links
   } = event;
 
-  const CategoryLogo = categoryLogos[category] || categoryLogos.default;
+  const nextSession = findNextSession(schedules);
+
+  const scheduleList = schedules.map(session => {
+      const sessionDate = new Date(session.startAt);
+      const options: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+      const formattedTime = sessionDate.toLocaleString(undefined, options);
+      return `<li key="${session._id}" class="flex justify-between items-center py-1.5"><span class="text-gray-300">${session.name}</span><span class="font-semibold text-white">${formattedTime} hs</span></li>`;
+  }).join('');
   
-  const allSessions = races.flatMap(r => r.schedules.map(s => ({...s, raceName: r.name}))).sort((a,b) => a.startAt - b.startAt);
+  const broadcasterLogos = links.map(b => 
+      `<img src="${b.platformImage}" alt="${b.platform}" class="h-6 object-contain invert brightness-0" />`
+  ).join('');
 
   return (
-    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-      <CardHeader className="flex flex-row items-start gap-4 bg-card">
-        <div className="bg-primary/10 text-primary p-3 rounded-lg">
-          <CategoryLogo className="w-8 h-8" />
-        </div>
-        <div>
-          <CardTitle className="font-headline text-2xl">{category}</CardTitle>
-          <CardDescription className="text-base">{name}</CardDescription>
-        </div>
-      </CardHeader>
-      <CardContent className="flex-grow space-y-6">
-        {nextSession && (
-          <div className="space-y-2 text-center border rounded-lg p-4 bg-background">
-            <p className="text-sm font-medium text-muted-foreground">
-              Next Session: <span className="text-foreground font-semibold">{nextSession.name}</span>
-            </p>
-            <CountdownTimer targetDate={nextSession.startAt} />
+    <div className="race-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+      <div className="flex justify-center items-center h-16">
+          {categoryImage && <Image src={categoryImage} alt={`${category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain invert brightness-0" />}
+      </div>
+      <div className="text-center">
+          <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
+          <p className="text-sm text-gray-400">{event.extra}</p>
+      </div>
+      <div className="text-center bg-gray-800/50 p-4 rounded-lg">
+          {nextSession ? (
+            <>
+              <CountdownTimer targetDate={nextSession.startAt} />
+              <p className="text-lg font-semibold uppercase mt-1">PARA {nextSession.name.toUpperCase()}</p>
+            </>
+          ) : (
+             <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
+          )}
+      </div>
+      <div className="flex flex-col items-center gap-2">
+          <p className="text-xs uppercase text-gray-400">Donde ver:</p>
+          <div className="flex gap-4 items-center h-8" dangerouslySetInnerHTML={{ __html: broadcasterLogos }}>
           </div>
-        )}
-        
-        {links && links.length > 0 && (
-          <div className="space-y-3">
-            <h4 className="font-semibold text-sm">Where to Watch</h4>
-            <div className="flex items-center gap-4">
-              {links.map((info) => {
-                const Logo = platformLogos[info.platform] || platformLogos.default;
-                return (
-                  <a key={info.platform} href={info.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    <div className="bg-muted p-2 rounded-md">
-                      <Logo className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    <span className="font-medium text-sm capitalize">{info.platform}</span>
-                  </a>
-                )
-              })}
-            </div>
-          </div>
-        )}
-      </CardContent>
-      <CardFooter className="p-0 bg-background/50">
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1" className="border-t">
-            <AccordionTrigger className="px-6 py-3 text-sm font-semibold hover:no-underline hover:bg-muted/50">
-              Full Schedule
-            </AccordionTrigger>
-            <AccordionContent>
-              <ul className="px-6 pb-4 pt-2 space-y-3">
-                {allSessions.map((session, index) => (
-                   <li key={session.id}>
-                      <div className="flex justify-between items-center text-sm">
-                        <div className='flex flex-col text-left'>
-                            <span className="font-medium text-muted-foreground">{session.name}</span>
-                            <span className="text-xs text-muted-foreground/80">{session.raceName}</span>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold">{format(new Date(session.startAt), 'EEE, MMM d')}</p>
-                          <p className="text-muted-foreground text-xs">{format(new Date(session.startAt), 'h:mm a')}</p>
-                        </div>
-                      </div>
-                      {index < allSessions.length - 1 && <Separator className="mt-3" />}
-                   </li>
-                ))}
-              </ul>
-            </AccordionContent>
+      </div>
+      <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1" className="border-none">
+              <AccordionTrigger className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
+                  VER HORARIOS COMPLETOS
+              </AccordionTrigger>
+              <AccordionContent>
+                  <ul className="mt-3 px-2 divide-y divide-gray-600" dangerouslySetInnerHTML={{ __html: scheduleList }}>
+                  </ul>
+              </AccordionContent>
           </AccordionItem>
-        </Accordion>
-      </CardFooter>
-    </Card>
+      </Accordion>
+    </div>
   );
 }
