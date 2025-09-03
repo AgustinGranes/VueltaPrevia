@@ -4,11 +4,11 @@
 import { useState, useEffect } from 'react';
 
 interface CountdownTimerProps {
-  targetDate: string;
+  targetDate: number;
 }
 
-const calculateTimeLeft = (targetDate: string) => {
-  const difference = +new Date(targetDate) - +new Date();
+const calculateTimeLeft = (targetDate: number) => {
+  const difference = targetDate - +new Date();
   let timeLeft = {
     days: 0,
     hours: 0,

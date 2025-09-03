@@ -69,7 +69,7 @@ export function EventCard({ event }: EventCardProps) {
             <p className="text-sm font-medium text-muted-foreground">
               Next Session: <span className="text-foreground font-semibold">{nextSession.name}</span>
             </p>
-            <CountdownTimer targetDate={new Date(nextSession.startAt).toISOString()} />
+            <CountdownTimer targetDate={nextSession.startAt} />
           </div>
         )}
         
