@@ -6,7 +6,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { CountdownTimer } from './countdown-timer';
-import { format } from 'date-fns';
 import Image from 'next/image';
 
 interface EventCardProps {
@@ -59,7 +58,7 @@ export function EventCard({ event }: EventCardProps) {
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
           <p className="text-sm text-gray-400">{event.extra}</p>
       </div>
-      <div className="text-center bg-gray-800/50 p-4 rounded-lg">
+      <div className="text-center bg-black p-4 rounded-lg">
           {nextSession && nextSession.startAt > new Date().getTime() ? (
             <>
               <CountdownTimer targetDate={nextSession.startAt} />
@@ -77,7 +76,7 @@ export function EventCard({ event }: EventCardProps) {
       <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
               <AccordionTrigger className="flex justify-center items-center cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
-                  VER HORARIOS COMPLETOS
+                  <span className="flex-grow">VER HORARIOS COMPLETOS</span>
               </AccordionTrigger>
               <AccordionContent>
                   <ul className="mt-3 px-2 divide-y divide-gray-600" dangerouslySetInnerHTML={{ __html: scheduleList }}>
