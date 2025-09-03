@@ -15,12 +15,15 @@ interface EventCardProps {
 
 const findNextSession = (sessions: Schedule[]): Schedule | null => {
   const now = new Date().getTime();
+  // Sort sessions by start time to correctly find the next one
   const sortedSessions = [...sessions].sort((a, b) => a.startAt - b.startAt);
+  // Find the first session that starts in the future
   const upcomingSession = sortedSessions.find(s => s.startAt > now);
 
   if (upcomingSession) {
     return upcomingSession;
   }
+  // If no future sessions, return the last one to show "EVENTO FINALIZADO" correctly
   return sortedSessions.length > 0 ? sortedSessions[sortedSessions.length - 1] : null;
 };
 
@@ -54,13 +57,13 @@ export function EventCard({ event }: EventCardProps) {
       </div>
       <div className="text-center">
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
-          <p className="text-sm text-gray-400">${event.extra}</p>
+          <p className="text-sm text-gray-400">{event.extra}</p>
       </div>
       <div className="text-center bg-gray-800/50 p-4 rounded-lg">
-          {nextSession ? (
+          {nextSession && nextSession.startAt > new Date().getTime() ? (
             <>
               <CountdownTimer targetDate={nextSession.startAt} />
-              <p className="text-lg font-semibold uppercase mt-1">PARA ${nextSession.name.toUpperCase()}</p>
+              <p className="text-lg font-semibold uppercase mt-1">PARA LA {nextSession.name.toUpperCase()}</p>
             </>
           ) : (
              <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
@@ -73,7 +76,7 @@ export function EventCard({ event }: EventCardProps) {
       </div>
       <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
-              <AccordionTrigger className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
+              <AccordionTrigger className="flex justify-center items-center cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
                   VER HORARIOS COMPLETOS
               </AccordionTrigger>
               <AccordionContent>

@@ -32,17 +32,21 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    const updateCountdown = () => {
+    // Run on client only
+    const { timeLeft, difference } = calculateTimeLeft(targetDate);
+    setTimeLeft(timeLeft);
+    if (difference <= 0) {
+      setIsFinished(true);
+    }
+
+    const timer = setInterval(() => {
       const { timeLeft, difference } = calculateTimeLeft(targetDate);
       setTimeLeft(timeLeft);
       if (difference <= 0) {
         setIsFinished(true);
         clearInterval(timer);
       }
-    };
-    
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
+    }, 1000);
 
     return () => clearInterval(timer);
   }, [targetDate]);
@@ -61,20 +65,23 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
       </div>
     );
   }
-
-  const f = (n: number) => (n < 10 ? '0' + n : n);
-
-  let countdownText = "";
-  if (timeLeft.days > 0) {
-      countdownText = `${timeLeft.days}d ${f(timeLeft.hours)}h ${f(timeLeft.minutes)}m ${f(timeLeft.seconds)}s`;
-  } else {
-      countdownText = `${f(timeLeft.hours)}:${f(timeLeft.minutes)}:${f(timeLeft.seconds)}`;
-  }
-
-
+  
   return (
-    <div id="timer" className="text-3xl md:text-4xl font-mono tracking-wider font-bold text-yellow-400">
-      {countdownText}
+    <div className="flex justify-center items-end gap-3 font-mono tracking-wider font-bold text-yellow-400">
+      {timeLeft.days > 0 && (
+        <div className="text-center">
+          <div className="text-3xl md:text-4xl">{timeLeft.days}</div>
+          <div className="text-xs font-semibold">DD</div>
+        </div>
+      )}
+      <div className="text-center">
+        <div className="text-3xl md:text-4xl">{timeLeft.hours < 10 ? '0' + timeLeft.hours : timeLeft.hours}</div>
+        <div className="text-xs font-semibold">HH</div>
+      </div>
+      <div className="text-center">
+        <div className="text-3xl md:text-4xl">{timeLeft.minutes < 10 ? '0' + timeLeft.minutes : timeLeft.minutes}</div>
+        <div className="text-xs font-semibold">MM</div>
+      </div>
     </div>
   );
 }
