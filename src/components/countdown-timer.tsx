@@ -31,6 +31,7 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   const [timeLeft, setTimeLeft] = useState<ReturnType<typeof calculateTimeLeft> | null>(null);
 
   useEffect(() => {
+    // Moved the initial calculation to useEffect to ensure it only runs on the client.
     setTimeLeft(calculateTimeLeft(targetDate));
 
     const timer = setInterval(() => {
