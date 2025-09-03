@@ -21,7 +21,6 @@ const findNextSession = (sessions: Schedule[]): Schedule | null => {
   if (upcomingSession) {
     return upcomingSession;
   }
-  // If no upcoming, return the last session to show "Finished"
   return sortedSessions.length > 0 ? sortedSessions[sortedSessions.length - 1] : null;
 };
 
@@ -45,7 +44,7 @@ export function EventCard({ event }: EventCardProps) {
   }).join('');
   
   const broadcasterLogos = links.map(b => 
-      `<img src="${b.platformImage}" alt="${b.platform}" class="h-6 object-contain invert brightness-0" />`
+      b.platformImage ? `<img src="${b.platformImage}" alt="${b.platform}" class="h-6 object-contain invert brightness-0" />` : ''
   ).join('');
 
   return (
@@ -55,7 +54,7 @@ export function EventCard({ event }: EventCardProps) {
       </div>
       <div className="text-center">
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
-          <p className="text-sm text-gray-400">${event.extra}</p>
+          <p className="text-sm text-gray-400">{event.extra}</p>
       </div>
       <div className="text-center bg-gray-800/50 p-4 rounded-lg">
           {nextSession ? (
@@ -68,7 +67,7 @@ export function EventCard({ event }: EventCardProps) {
           )}
       </div>
       <div className="flex flex-col items-center gap-2">
-          <p className="text-xs uppercase text-gray-400">Donde ver:</p>
+          {broadcasterLogos && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
           <div className="flex gap-4 items-center h-8" dangerouslySetInnerHTML={{ __html: broadcasterLogos }}>
           </div>
       </div>
