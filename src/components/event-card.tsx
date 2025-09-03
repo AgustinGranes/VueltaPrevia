@@ -44,23 +44,23 @@ export function EventCard({ event }: EventCardProps) {
   }).join('');
   
   const broadcasterLogos = links.map(b => 
-      b.platformImage ? `<img src="${b.platformImage}" alt="${b.platform}" class="h-6 object-contain invert brightness-0" />` : ''
+      b.platformImage ? `<img src="${b.platformImage}" alt="${b.platform}" class="h-6 object-contain" />` : ''
   ).join('');
 
   return (
     <div className="race-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
       <div className="flex justify-center items-center h-16">
-          {categoryImage && <Image src={categoryImage} alt={`${category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain invert brightness-0" />}
+          {categoryImage && <Image src={categoryImage} alt={`${category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain" />}
       </div>
       <div className="text-center">
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
-          <p className="text-sm text-gray-400">{event.extra}</p>
+          <p className="text-sm text-gray-400">${event.extra}</p>
       </div>
       <div className="text-center bg-gray-800/50 p-4 rounded-lg">
           {nextSession ? (
             <>
               <CountdownTimer targetDate={nextSession.startAt} />
-              <p className="text-lg font-semibold uppercase mt-1">PARA {nextSession.name.toUpperCase()}</p>
+              <p className="text-lg font-semibold uppercase mt-1">PARA ${nextSession.name.toUpperCase()}</p>
             </>
           ) : (
              <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
