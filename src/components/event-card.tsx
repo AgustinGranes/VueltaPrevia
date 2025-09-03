@@ -58,7 +58,7 @@ export function EventCard({ event }: EventCardProps) {
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
           <p className="text-sm text-gray-400">{event.extra}</p>
       </div>
-      <div className="text-center bg-muted p-4 rounded-lg">
+      <div className="text-center bg-background p-4 rounded-lg">
           {nextSession && nextSession.startAt > new Date().getTime() ? (
             <>
               <CountdownTimer targetDate={nextSession.startAt} />
