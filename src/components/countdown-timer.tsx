@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -27,15 +28,32 @@ const calculateTimeLeft = (targetDate: string) => {
 };
 
 export function CountdownTimer({ targetDate }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(targetDate));
+  // Initialize with null to avoid server/client mismatch
+  const [timeLeft, setTimeLeft] = useState<ReturnType<typeof calculateTimeLeft> | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // Calculate initial time left on the client
+    setTimeLeft(calculateTimeLeft(targetDate));
+
+    const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft(targetDate));
     }, 1000);
 
-    return () => clearTimeout(timer);
-  });
+    return () => clearInterval(timer);
+  }, [targetDate]); // Rerun effect if targetDate changes
+  
+  if (!timeLeft) {
+    return (
+      <div className="grid grid-cols-4 gap-2 text-center auto-cols-max animate-pulse">
+        {['days', 'hours', 'minutes', 'seconds'].map((interval) => (
+          <div key={interval} className="flex flex-col items-center">
+            <div className="text-2xl md:text-3xl font-bold text-primary font-mono tracking-tighter bg-muted-foreground/20 rounded-md w-10 h-9"></div>
+            <div className="text-xs text-muted-foreground uppercase mt-1">{interval}</div>
+          </div>
+        ))}
+      </div>
+    );
+  }
   
   const timerComponents = Object.entries(timeLeft).map(([interval, value]) => {
     if (value < 0) return null;
