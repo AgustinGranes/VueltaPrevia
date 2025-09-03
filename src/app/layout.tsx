@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import { Inter, Space_Grotesk } from 'next/font/google'
+import { Nunito, Syncopate } from 'next/font/google'
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
@@ -8,16 +8,17 @@ export const metadata: Metadata = {
   description: 'Your ultimate guide to the race weekend.',
 };
 
-const inter = Inter({
+const nunito = Nunito({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-nunito',
 })
  
-const spaceGrotesk = Space_Grotesk({
+const syncopate = Syncopate({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-space-grotesk',
+  variable: '--font-syncopate',
+  weight: ['400', '700'],
 })
 
 export default function RootLayout({
@@ -26,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${nunito.variable} ${syncopate.variable}`}>
       <body className="font-body antialiased">
         {children}
         <Toaster />

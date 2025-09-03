@@ -4,8 +4,10 @@ import type { Race } from "@/types";
 async function getRaceData(): Promise<Race[]> {
   try {
     const now = new Date();
-    const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1); // Start of current week (Monday)
-    const endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 13); // 2 weeks from start date
+    // Start of current week (Monday)
+    const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (now.getDay() || 7) + 1); 
+    // 2 weeks from start date
+    const endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 13); 
 
     const minDate = startDate.getTime();
     const maxDate = endDate.getTime();
@@ -35,7 +37,7 @@ export default async function Home() {
     <div className="dark">
       <div className="p-4 md:p-8">
         <header className="text-center mb-10">
-            <h1 className="text-4xl md:text-6xl font-syncopate tracking-widest uppercase">Vuelta Rápida</h1>
+            <h1 className="text-4xl md:text-6xl tracking-widest uppercase">Vuelta Rápida</h1>
             <p className="text-gray-400 mt-2">El calendario del motorsport</p>
         </header>
 
