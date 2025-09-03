@@ -33,7 +33,7 @@ export default async function Home() {
 
   return (
     <div className="dark">
-      <body className="p-4 md:p-8">
+      <div className="p-4 md:p-8">
         <header className="text-center mb-10">
             <h1 className="text-4xl md:text-6xl font-syncopate tracking-widest uppercase">Vuelta Rápida</h1>
             <p className="text-gray-400 mt-2">El calendario del motorsport</p>
@@ -48,7 +48,7 @@ export default async function Home() {
         <footer className="text-center mt-12 text-gray-500 text-sm">
             <p>Desarrollado con base en la idea de VueltaRápida.com.ar</p>
         </footer>
-      </body>
+      </div>
     </div>
   );
 }
