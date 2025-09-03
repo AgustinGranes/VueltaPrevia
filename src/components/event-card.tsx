@@ -55,7 +55,7 @@ export function EventCard({ event }: EventCardProps) {
       </div>
       <div className="text-center">
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
-          <p className="text-sm text-gray-400">{event.extra}</p>
+          <p className="text-sm text-gray-400">${event.extra}</p>
       </div>
       <div className="text-center bg-gray-800/50 p-4 rounded-lg">
           {nextSession ? (
