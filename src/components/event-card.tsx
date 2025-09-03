@@ -50,7 +50,7 @@ export function EventCard({ event }: EventCardProps) {
   ).join('');
 
   return (
-    <div className="race-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+    <div className="race-card bg-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 rounded-2xl">
       <div className="flex justify-center items-center h-16">
           {categoryImage && <Image src={categoryImage} alt={`${category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain" />}
       </div>
@@ -58,7 +58,7 @@ export function EventCard({ event }: EventCardProps) {
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
           <p className="text-sm text-gray-400">{event.extra}</p>
       </div>
-      <div className="text-center bg-black p-4 rounded-lg">
+      <div className="text-center bg-muted p-4 rounded-lg">
           {nextSession && nextSession.startAt > new Date().getTime() ? (
             <>
               <CountdownTimer targetDate={nextSession.startAt} />
