@@ -20,7 +20,18 @@ async function getRaceData(): Promise<Race[]> {
     }
     
     const data = await response.json();
-    return data.races || [];
+    const races: Race[] = data.races || [];
+
+    // Adjust all schedule times by subtracting 3 hours
+    const adjustedRaces = races.map(race => ({
+      ...race,
+      schedules: race.schedules.map(schedule => ({
+        ...schedule,
+        startAt: schedule.startAt - (3 * 60 * 60 * 1000)
+      }))
+    }));
+
+    return adjustedRaces;
   } catch (error) {
     console.error("Error fetching race data:", error);
     return [];
