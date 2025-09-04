@@ -42,6 +42,7 @@ export function EventCard({ event }: EventCardProps) {
   } = event;
 
   const nextSession = findNextSession(schedules);
+  const hasSchedules = schedules && schedules.length > 0;
 
   const formatPlatformName = (platform: string) => {
     const upperPlatform = platform.toUpperCase();
@@ -72,13 +73,33 @@ export function EventCard({ event }: EventCardProps) {
           <p className="text-sm text-gray-400">{extra ? extra.replace(/\$/g, '') : ''}</p>
       </div>
       <div id="countdown-container" className="text-center bg-background p-4 rounded-lg">
-          {nextSession ? (
-            <>
-              <p className="text-lg font-semibold uppercase mb-1">PARA LA {nextSession.name.replace(/\?/g, '')}</p>
-              <CountdownTimer targetDate={nextSession.startAt} />
-            </>
+          {hasSchedules ? (
+            nextSession ? (
+              <>
+                <p className="text-lg font-semibold uppercase mb-1">PARA LA {nextSession.name.replace(/\?/g, '')}</p>
+                <CountdownTimer targetDate={nextSession.startAt} />
+              </>
+            ) : (
+              <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
+            )
           ) : (
-             <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
+            <>
+              <p className="text-lg font-semibold uppercase mb-1">A CONFIRMAR</p>
+              <div className="flex justify-center items-end gap-3 font-mono tracking-wider font-bold text-yellow-400">
+                  <div className="text-center">
+                      <div className="text-3xl md:text-4xl">--</div>
+                      <div className="text-xs font-semibold">DD</div>
+                  </div>
+                  <div className="text-center">
+                      <div className="text-3xl md:text-4xl">--</div>
+                      <div className="text-xs font-semibold">HH</div>
+                  </div>
+                  <div className="text-center">
+                      <div className="text-3xl md:text-4xl">--</div>
+                      <div className="text-xs font-semibold">MM</div>
+                  </div>
+              </div>
+            </>
           )}
       </div>
       <div className="flex flex-col items-center gap-2">
@@ -102,6 +123,7 @@ export function EventCard({ event }: EventCardProps) {
                   </span>
               </AccordionTrigger>
               <AccordionContent>
+                {hasSchedules ? (
                   <ul className="mt-3 px-2 divide-y divide-gray-600">
                     {schedules.map(session => {
                         const formattedTime = formatSessionDate(session.startAt);
@@ -113,6 +135,9 @@ export function EventCard({ event }: EventCardProps) {
                         );
                     })}
                   </ul>
+                ) : (
+                  <p className="text-center text-gray-400 mt-3">Horarios sin confirmar aún.</p>
+                )}
               </AccordionContent>
           </AccordionItem>
       </Accordion>
