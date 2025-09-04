@@ -54,7 +54,7 @@ export default async function Home() {
   const eventsWithImages = races.map(race => ({
     ...race,
     categoryImage: categoryMap.get(race.categoryId) || race.categoryImage,
-  }));
+  })).filter(event => event.categoryImage);
 
   return (
     <div className="dark">
