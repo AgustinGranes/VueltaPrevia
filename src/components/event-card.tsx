@@ -24,7 +24,11 @@ const findNextSession = (schedules: Schedule[]): Schedule | null => {
   }
 
   // If no upcoming sessions, return the last session to show "EVENTO FINALIZADO" correctly
-  return schedules.length > 0 ? schedules[sessions.length - 1] : null;
+  const lastSession = schedules.length > 0 ? schedules[schedules.length - 1] : null;
+    if (lastSession && lastSession.startAt < now) {
+        return null;
+    }
+  return lastSession;
 };
 
 
@@ -46,12 +50,12 @@ export function EventCard({ event }: EventCardProps) {
       </div>
       <div className="text-center">
           <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
-          <p className="text-sm text-gray-400">{extra}</p>
+          <p className="text-sm text-gray-400">{extra ? extra.replace(/\$/g, '') : ''}</p>
       </div>
       <div id="countdown-container" className="text-center bg-background p-4 rounded-lg">
-          {nextSession && nextSession.startAt > new Date().getTime() ? (
+          {nextSession ? (
             <>
-              <p className="text-lg font-semibold uppercase mb-1">PARA LA {nextSession.name.toUpperCase()}</p>
+              <p className="text-lg font-semibold uppercase mb-1">PARA LA {nextSession.name.replace(/\?/g, '')}</p>
               <CountdownTimer targetDate={nextSession.startAt} />
             </>
           ) : (
@@ -72,7 +76,7 @@ export function EventCard({ event }: EventCardProps) {
           <AccordionItem value="item-1" className="border-none">
               <AccordionTrigger className="flex justify-center items-center cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
                   <span className="flex-grow text-center">VER HORARIOS COMPLETOS</span>
-                  <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 ml-2" />
+                  <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
               </AccordionTrigger>
               <AccordionContent>
                   <ul className="mt-3 px-2 divide-y divide-gray-600">
