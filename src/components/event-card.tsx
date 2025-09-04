@@ -43,6 +43,13 @@ export function EventCard({ event }: EventCardProps) {
 
   const nextSession = findNextSession(schedules);
 
+  const formatPlatformName = (platform: string) => {
+    const upperPlatform = platform.toUpperCase();
+    if (upperPlatform === 'DISNEYPLUS') return 'DISNEY+';
+    if (upperPlatform === 'RALLYTV') return 'RALLY TV';
+    return upperPlatform;
+  };
+
   return (
     <div className="race-card bg-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 rounded-2xl">
       <div className="flex justify-center items-center h-16">
@@ -68,7 +75,7 @@ export function EventCard({ event }: EventCardProps) {
             {links.map((link, index) => (
                 <div key={`${link._id}-${index}`}>
                   <a href={link.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">
-                    {link.platform.toUpperCase()}
+                    {formatPlatformName(link.platform)}
                   </a>
                 </div>
             ))}
@@ -78,7 +85,6 @@ export function EventCard({ event }: EventCardProps) {
           <AccordionItem value="item-1" className="border-none">
               <AccordionTrigger className="flex justify-center items-center cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
                   <span className="flex-grow text-center">VER HORARIOS COMPLETOS</span>
-                  <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
               </AccordionTrigger>
               <AccordionContent>
                   <ul className="mt-3 px-2 divide-y divide-gray-600">
