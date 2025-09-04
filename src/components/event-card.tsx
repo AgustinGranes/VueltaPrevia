@@ -68,7 +68,7 @@ export function EventCard({ event }: EventCardProps) {
             {links.map((link, index) => (
                 <div key={`${link._id}-${index}`}>
                   <a href={link.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">
-                    {link.platform}
+                    {link.platform.toUpperCase()}
                   </a>
                 </div>
             ))}
