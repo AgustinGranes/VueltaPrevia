@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/accordion';
 import { CountdownTimer } from './countdown-timer';
 import Image from 'next/image';
-import { ChevronDown } from 'lucide-react';
 
 interface EventCardProps {
   event: Race;
@@ -70,7 +69,7 @@ export function EventCard({ event }: EventCardProps) {
           {categoryImage && <Image src={categoryImage} alt={`${event.category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain" />}
       </div>
       <div className="text-center">
-          <h2 className="text-2xl font-syncopate uppercase">{name}</h2>
+          <h2 className="text-2xl font-syncopate uppercase break-words">{name}</h2>
           <p className="text-sm text-gray-400">{extra ? extra.replace(/\$/g, '') : ''}</p>
       </div>
       <div id="countdown-container" className="text-center bg-background p-4 rounded-lg">
@@ -128,9 +127,9 @@ export function EventCard({ event }: EventCardProps) {
                     {schedules.map(session => {
                         const formattedTime = formatSessionDate(session.startAt);
                         return (
-                            <li key={session._id} className="flex justify-between items-center py-1.5">
-                                <span className="text-gray-300">{session.name}</span>
-                                <span className="font-semibold text-white">{formattedTime}</span>
+                            <li key={session._id} className="flex justify-between items-center py-1.5 gap-2">
+                                <span className="text-gray-300 text-left break-words flex-1">{session.name}</span>
+                                <span className="font-semibold text-white text-right break-words">{formattedTime}</span>
                             </li>
                         );
                     })}
