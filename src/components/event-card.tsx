@@ -65,8 +65,8 @@ export function EventCard({ event }: EventCardProps) {
       <div className="flex flex-col items-center gap-2">
           {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
           <div className="flex gap-4 items-center h-8">
-            {links.map(link => (
-                <div key={link._id}>
+            {links.map((link, index) => (
+                <div key={`${link._id}-${index}`}>
                   <a href={link.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">
                     {link.platform}
                   </a>
