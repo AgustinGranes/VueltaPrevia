@@ -50,6 +50,18 @@ export function EventCard({ event }: EventCardProps) {
     return upperPlatform;
   };
 
+  const formatSessionDate = (timestamp: number) => {
+    const date = new Date(timestamp);
+    const dayName = new Intl.DateTimeFormat('es-ES', { weekday: 'long' }).format(date);
+    const capitalizedDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+    const day = date.getDate();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${capitalizedDayName} ${day}/${month}, ${hours}:${minutes}HS`;
+  };
+
   return (
     <div className="race-card bg-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 rounded-2xl">
       <div className="flex justify-center items-center h-16">
@@ -83,7 +95,7 @@ export function EventCard({ event }: EventCardProps) {
       </div>
       <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
-              <AccordionTrigger className="flex justify-center items-center cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
+              <AccordionTrigger className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
                   <span className="flex items-center justify-center">
                     VER HORARIOS COMPLETOS
                     <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 ml-2" />
@@ -92,13 +104,11 @@ export function EventCard({ event }: EventCardProps) {
               <AccordionContent>
                   <ul className="mt-3 px-2 divide-y divide-gray-600">
                     {schedules.map(session => {
-                        const sessionDate = new Date(session.startAt);
-                        const options: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
-                        const formattedTime = sessionDate.toLocaleString(undefined, options);
+                        const formattedTime = formatSessionDate(session.startAt);
                         return (
                             <li key={session._id} className="flex justify-between items-center py-1.5">
                                 <span className="text-gray-300">{session.name}</span>
-                                <span className="font-semibold text-white">{formattedTime} hs</span>
+                                <span className="font-semibold text-white">{formattedTime}</span>
                             </li>
                         );
                     })}
