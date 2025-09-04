@@ -13,10 +13,10 @@ interface EventCardProps {
   event: Race;
 }
 
-const findNextSession = (sessions: Schedule[]): Schedule | null => {
+const findNextSession = (schedules: Schedule[]): Schedule | null => {
   const now = new Date().getTime();
   // Filter out sessions that have already passed
-  const upcomingSessions = sessions.filter(s => s.startAt > now);
+  const upcomingSessions = schedules.filter(s => s.startAt > now);
   
   if (upcomingSessions.length > 0) {
     // Sort upcoming sessions to find the next one
@@ -24,7 +24,7 @@ const findNextSession = (sessions: Schedule[]): Schedule | null => {
   }
 
   // If no upcoming sessions, return the last session to show "EVENTO FINALIZADO" correctly
-  return sessions.length > 0 ? sessions[sessions.length - 1] : null;
+  return schedules.length > 0 ? schedules[sessions.length - 1] : null;
 };
 
 
@@ -51,8 +51,8 @@ export function EventCard({ event }: EventCardProps) {
       <div id="countdown-container" className="text-center bg-background p-4 rounded-lg">
           {nextSession && nextSession.startAt > new Date().getTime() ? (
             <>
+              <p className="text-lg font-semibold uppercase mb-1">PARA LA {nextSession.name.toUpperCase()}</p>
               <CountdownTimer targetDate={nextSession.startAt} />
-              <p className="text-lg font-semibold uppercase mt-1">PARA LA {nextSession.name.toUpperCase()}</p>
             </>
           ) : (
              <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
@@ -62,7 +62,9 @@ export function EventCard({ event }: EventCardProps) {
           {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
           <div className="flex gap-4 items-center h-8">
             {links.map(link => (
-                link.platformImage && <a href={link.link} target="_blank" rel="noopener noreferrer" key={link._id}><img src={link.platformImage} alt={link.platform} className="h-6 object-contain invert brightness-0" /></a>
+                <a href={link.link} target="_blank" rel="noopener noreferrer" key={link._id} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">
+                  {link.platform}
+                </a>
             ))}
           </div>
       </div>
