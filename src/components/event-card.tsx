@@ -1,3 +1,4 @@
+
 import type { Race, Schedule } from '@/types';
 import {
   Accordion,
@@ -119,7 +120,6 @@ export function EventCard({ event }: EventCardProps) {
               <AccordionTrigger className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
                   <span className="flex items-center justify-center">
                     VER HORARIOS COMPLETOS
-                    <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 ml-2" />
                   </span>
               </AccordionTrigger>
               <AccordionContent>
