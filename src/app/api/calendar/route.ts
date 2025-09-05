@@ -83,7 +83,6 @@ export async function GET() {
       status: 200,
       headers: {
         'Content-Type': 'text/calendar; charset=utf-8',
-        'Content-Disposition': 'attachment; filename="vueltaprevia_calendar.ics"',
       },
     });
   } catch (error) {
