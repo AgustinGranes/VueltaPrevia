@@ -15,15 +15,12 @@ interface EventCardProps {
 
 const findNextSession = (schedules: Schedule[]): Schedule | null => {
   const now = new Date().getTime();
-  // Filter out sessions that have already passed
   const upcomingSessions = schedules.filter(s => s.startAt > now);
   
   if (upcomingSessions.length > 0) {
-    // Sort upcoming sessions to find the next one
     return upcomingSessions.sort((a, b) => a.startAt - b.startAt)[0];
   }
 
-  // If no upcoming sessions, return the last session to show "EVENTO FINALIZADO" correctly
   const lastSession = schedules.length > 0 ? schedules[schedules.length - 1] : null;
     if (lastSession && lastSession.startAt < now) {
         return null;
@@ -65,14 +62,14 @@ export function EventCard({ event }: EventCardProps) {
 
   return (
     <div className="race-card bg-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 rounded-2xl">
-      <div className="flex justify-center items-center h-16">
+      <div className="flex justify-center items-center h-16 flex-shrink-0">
           {categoryImage && <Image src={categoryImage} alt={`${event.category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain" />}
       </div>
-      <div className="text-center">
+      <div className="text-center flex-grow flex flex-col justify-center">
           <h2 className="text-2xl font-syncopate uppercase break-words">{name}</h2>
           <p className="text-sm text-gray-400">{extra ? extra.replace(/\$/g, '') : ''}</p>
       </div>
-      <div id="countdown-container" className="text-center bg-background p-4 rounded-lg">
+      <div id="countdown-container" className="text-center bg-background p-4 rounded-lg flex-shrink-0">
           {hasSchedules ? (
             nextSession ? (
               <>
@@ -105,7 +102,7 @@ export function EventCard({ event }: EventCardProps) {
             </>
           )}
       </div>
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-2 flex-shrink-0">
           {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
           <div className="flex gap-4 items-center h-8">
             {links.map((link, index) => (
@@ -117,7 +114,7 @@ export function EventCard({ event }: EventCardProps) {
             ))}
           </div>
       </div>
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion type="single" collapsible className="w-full mt-auto flex-shrink-0">
           <AccordionItem value="item-1" className="border-none">
               <AccordionTrigger className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
                   <span className="flex items-center justify-center">
