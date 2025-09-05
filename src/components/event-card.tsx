@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 interface EventCardProps {
   event: Race;
-  isFirst?: boolean;
+  index: number;
 }
 
 const findNextSession = (schedules: Schedule[]): Schedule | null => {
@@ -27,7 +27,7 @@ const findNextSession = (schedules: Schedule[]): Schedule | null => {
 };
 
 
-export function EventCard({ event, isFirst = false }: EventCardProps) {
+export function EventCard({ event, index }: EventCardProps) {
   const { 
     categoryImage,
     name,
@@ -54,13 +54,25 @@ export function EventCard({ event, isFirst = false }: EventCardProps) {
     return upperPlatform;
   };
   
-  const cardStyle = isFirst ? { 
-    backgroundImage: `url('https://i.postimg.cc/tR807st3/IMAGEN-1.jpg')`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center'
-  } : {};
+  const isFirst = index === 0;
+  const isSecond = index === 1;
+  
+  let cardStyle = {};
+  if (isFirst) {
+    cardStyle = { 
+      backgroundImage: `url('https://i.postimg.cc/tR807st3/IMAGEN-1.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    };
+  } else if (isSecond) {
+    cardStyle = { 
+      backgroundImage: `url('https://i.postimg.cc/C534YT88/IMAGEN-2.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    };
+  }
 
-  const textColorClass = isFirst ? 'text-white' : '';
+  const textColorClass = isFirst || isSecond ? 'text-white' : '';
 
 
   return (
@@ -75,7 +87,7 @@ export function EventCard({ event, isFirst = false }: EventCardProps) {
           <h2 className="text-2xl font-syncopate uppercase break-words">{name}</h2>
           <p className="text-sm text-gray-400">{extra ? extra.replace(/\$/g, '') : ''}</p>
       </div>
-      <div id="countdown-container" className="text-center bg-background p-4 rounded-lg flex-shrink-0">
+      <div id="countdown-container" className="text-center bg-background/80 backdrop-blur-sm p-4 rounded-lg flex-shrink-0">
           {hasSchedules ? (
             nextSession ? (
               <>
@@ -108,12 +120,12 @@ export function EventCard({ event, isFirst = false }: EventCardProps) {
             </>
           )}
       </div>
-      <div className={`flex flex-col items-center gap-2 flex-shrink-0 h-12 justify-center ${textColorClass}`}>
-          {links && links.length > 0 && <p className="text-xs uppercase text-white">Donde ver:</p>}
+      <div className={`flex flex-col items-center gap-2 flex-shrink-0 h-12 justify-center`}>
+          {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
           <div className="flex gap-4 items-center">
             {links.map((link, index) => (
                 <div key={`${link._id}-${index}`}>
-                  <a href={link.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-white hover:text-gray-200 transition-colors">
+                  <a href={link.link} target="_blank" rel="noopener noreferrer" className={`text-sm font-semibold hover:text-gray-200 transition-colors ${textColorClass}`}>
                     {formatPlatformName(link.platform)}
                   </a>
                 </div>
@@ -122,7 +134,7 @@ export function EventCard({ event, isFirst = false }: EventCardProps) {
       </div>
       
       <EventDetailsModal event={event}>
-        <div className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 px-4 rounded-lg bg-background mt-auto flex-shrink-0">
+        <div className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 px-4 rounded-lg bg-background/80 backdrop-blur-sm mt-auto flex-shrink-0">
           <span className="flex items-center justify-center w-full">
             VER HORARIOS COMPLETOS
           </span>
