@@ -56,6 +56,7 @@ export function EventCard({ event, index }: EventCardProps) {
   
   const isFirst = index === 0;
   const isSecond = index === 1;
+  const isThird = index === 2;
   
   let cardStyle = {};
   if (isFirst) {
@@ -70,9 +71,15 @@ export function EventCard({ event, index }: EventCardProps) {
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     };
+  } else if (isThird) {
+    cardStyle = { 
+      backgroundImage: `url('https://i.postimg.cc/Qtnb4Wx0/IMAGEN-3.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    };
   }
 
-  const textColorClass = isFirst || isSecond ? 'text-white' : '';
+  const textColorClass = isFirst || isSecond || isThird ? 'text-white' : '';
 
 
   return (
