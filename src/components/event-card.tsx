@@ -8,6 +8,7 @@ import Image from 'next/image';
 
 interface EventCardProps {
   event: Race;
+  isFirst?: boolean;
 }
 
 const findNextSession = (schedules: Schedule[]): Schedule | null => {
@@ -26,7 +27,7 @@ const findNextSession = (schedules: Schedule[]): Schedule | null => {
 };
 
 
-export function EventCard({ event }: EventCardProps) {
+export function EventCard({ event, isFirst = false }: EventCardProps) {
   const { 
     categoryImage,
     name,
@@ -52,21 +53,33 @@ export function EventCard({ event }: EventCardProps) {
     if (upperPlatform === 'RALLYTV') return 'RALLY TV';
     return upperPlatform;
   };
+  
+  const cardStyle = isFirst ? { 
+    backgroundImage: `url('https://i.ibb.co/wZk2j1z/IMAGEN-1.jpg')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  } : {};
+
+  const textColorClass = isFirst ? 'text-white' : '';
+
 
   return (
-    <div className="race-card bg-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 rounded-2xl">
+    <div 
+      className="race-card bg-card p-5 flex flex-col gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 rounded-2xl"
+      style={cardStyle}
+    >
       <div className="flex justify-center items-center h-16 flex-shrink-0">
           {categoryImage && <Image src={categoryImage} alt={`${event.category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain" />}
       </div>
-      <div className="text-center flex-grow flex flex-col justify-center h-20">
+      <div className={`text-center flex-grow flex flex-col justify-center h-20 ${textColorClass}`}>
           <h2 className="text-2xl font-syncopate uppercase break-words">{name}</h2>
           <p className="text-sm text-gray-400">{extra ? extra.replace(/\$/g, '') : ''}</p>
       </div>
-      <div id="countdown-container" className="text-center bg-background p-4 rounded-lg flex-shrink-0">
+      <div id="countdown-container" className="text-center bg-background/80 backdrop-blur-sm p-4 rounded-lg flex-shrink-0">
           {hasSchedules ? (
             nextSession ? (
               <>
-                <div className="text-lg font-semibold uppercase mb-1 flex flex-wrap justify-center items-center h-12">
+                <div className={`text-lg font-semibold uppercase mb-1 flex flex-wrap justify-center items-center h-12 ${textColorClass}`}>
                   <span className="mr-2">PARA LA</span>
                   <span>{nextSession.name.replace(/\?/g, '')}</span>
                 </div>
@@ -77,7 +90,7 @@ export function EventCard({ event }: EventCardProps) {
             )
           ) : (
             <>
-              <p className="text-lg font-semibold uppercase mb-1 h-12 flex items-center justify-center">A CONFIRMAR</p>
+              <p className={`text-lg font-semibold uppercase mb-1 h-12 flex items-center justify-center ${textColorClass}`}>A CONFIRMAR</p>
               <div className="flex justify-center items-end gap-3 font-mono tracking-wider font-bold text-yellow-400">
                   <div className="text-center">
                       <div className="text-3xl md:text-4xl">--</div>
@@ -95,12 +108,12 @@ export function EventCard({ event }: EventCardProps) {
             </>
           )}
       </div>
-      <div className="flex flex-col items-center gap-2 flex-shrink-0 h-12 justify-center">
+      <div className={`flex flex-col items-center gap-2 flex-shrink-0 h-12 justify-center ${textColorClass}`}>
           {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
           <div className="flex gap-4 items-center">
             {links.map((link, index) => (
                 <div key={`${link._id}-${index}`}>
-                  <a href={link.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">
+                  <a href={link.link} target="_blank" rel="noopener noreferrer" className={`text-sm font-semibold ${isFirst ? 'text-gray-200 hover:text-white' : 'text-gray-300 hover:text-white'} transition-colors`}>
                     {formatPlatformName(link.platform)}
                   </a>
                 </div>
