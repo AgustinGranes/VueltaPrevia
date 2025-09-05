@@ -1,10 +1,11 @@
+
 import type {Metadata} from 'next';
 import { Nunito, Syncopate } from 'next/font/google'
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Motorsports Schedule Tracker',
+  title: 'Vuelta Previa',
   description: 'Your ultimate guide to the race weekend.',
 };
 

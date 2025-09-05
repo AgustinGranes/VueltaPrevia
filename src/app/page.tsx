@@ -1,3 +1,4 @@
+
 import { EventCard } from "@/components/event-card";
 import type { Race, Category, Schedule } from "@/types";
 
@@ -107,7 +108,7 @@ export default async function Home() {
     <div className="dark">
       <div className="p-4 md:p-8">
         <header className="text-center mb-10">
-            <h1 className="text-4xl md:text-6xl font-syncopate tracking-widest uppercase">Vuelta Rápida</h1>
+            <h1 className="text-4xl md:text-6xl font-syncopate tracking-widest uppercase">Vuelta Previa</h1>
             <p className="text-gray-400 mt-2">El calendario del motorsport</p>
         </header>
 
@@ -118,7 +119,7 @@ export default async function Home() {
         </main>
 
         <footer className="text-center mt-12 text-gray-500 text-sm">
-            <p>Desarrollado con base en la idea de VueltaRápida.com.ar</p>
+            <p>Desarrollado con base en la idea de VueltaPrevia.com.ar</p>
         </footer>
       </div>
     </div>
