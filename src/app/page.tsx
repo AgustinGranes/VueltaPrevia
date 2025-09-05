@@ -121,7 +121,7 @@ export default async function Home() {
         </main>
 
         <footer className="text-center mt-12">
-            <a href="webcal:///api/calendar" >
+            <a href="/api/calendar" >
               <button className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-bold py-3 px-4 rounded-lg inline-flex items-center gap-2">
                 <Calendar size={20} />
                 <span>Suscribirse al Calendario</span>
