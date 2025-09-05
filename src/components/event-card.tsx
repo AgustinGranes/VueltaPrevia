@@ -73,18 +73,18 @@ export function EventCard({ event }: EventCardProps) {
           {hasSchedules ? (
             nextSession ? (
               <>
-                <div className="text-lg font-semibold uppercase mb-1 flex flex-wrap justify-center items-center">
+                <div className="text-lg font-semibold uppercase mb-1 flex flex-wrap justify-center items-center h-12">
                   <span className="mr-2">PARA LA</span>
                   <span>{nextSession.name.replace(/\?/g, '')}</span>
                 </div>
                 <CountdownTimer targetDate={nextSession.startAt} />
               </>
             ) : (
-              <p className="text-xl font-bold text-red-500">EVENTO FINALIZADO</p>
+              <p className="text-xl font-bold text-red-500 h-12 flex items-center justify-center">EVENTO FINALIZADO</p>
             )
           ) : (
             <>
-              <p className="text-lg font-semibold uppercase mb-1">A CONFIRMAR</p>
+              <p className="text-lg font-semibold uppercase mb-1 h-12 flex items-center justify-center">A CONFIRMAR</p>
               <div className="flex justify-center items-end gap-3 font-mono tracking-wider font-bold text-yellow-400">
                   <div className="text-center">
                       <div className="text-3xl md:text-4xl">--</div>
