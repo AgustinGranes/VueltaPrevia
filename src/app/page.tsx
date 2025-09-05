@@ -112,14 +112,6 @@ export default async function Home() {
         <header className="text-center mb-10">
             <h1 className="text-4xl md:text-6xl font-syncopate tracking-widest uppercase">Vuelta Previa</h1>
             <p className="text-gray-400 mt-2">El calendario del motorsport</p>
-            <div className="mt-6 flex justify-center">
-              <Link href="/api/calendar" passHref>
-                <button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-2 px-4 rounded-lg inline-flex items-center gap-2">
-                  <Calendar size={20} />
-                  <span>Suscribirse al Calendario</span>
-                </button>
-              </Link>
-            </div>
         </header>
 
         <main id="events-container" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -128,8 +120,13 @@ export default async function Home() {
             ))}
         </main>
 
-        <footer className="text-center mt-12 text-gray-500 text-sm">
-            <p>Desarrollado con base en la idea de VueltaPrevia.com.ar</p>
+        <footer className="text-center mt-12">
+            <Link href="/api/calendar" passHref>
+              <button className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-bold py-3 px-4 rounded-lg inline-flex items-center gap-2">
+                <Calendar size={20} />
+                <span>Suscribirse al Calendario</span>
+              </button>
+            </Link>
         </footer>
       </div>
     </div>
