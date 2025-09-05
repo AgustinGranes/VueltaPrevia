@@ -60,7 +60,6 @@ export function EventCard({ event, index }: EventCardProps) {
     'https://i.postimg.cc/Qtnb4Wx0/IMAGEN-3.jpg',
     'https://i.postimg.cc/Y0GxJqvk/IMAGEN-4.jpg',
     'https://i.postimg.cc/FFY59ycF/IMAGEN-5.jpg',
-    'https://i.postimg.cc/B6vpBCsj/IMAGEN-6.jpg',
   ];
 
   const imageIndex = index % images.length;
