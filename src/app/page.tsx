@@ -2,7 +2,7 @@
 import { EventCard } from "@/components/event-card";
 import type { Race, Category, Schedule } from "@/types";
 import { Calendar } from "lucide-react";
-import Link from 'next/link';
+import { headers } from 'next/headers';
 
 async function getRaceData(): Promise<Race[]> {
   try {
@@ -86,6 +86,11 @@ const findNextSessionStart = (schedules: Schedule[]): number | null => {
 
 export default async function Home() {
   const [races, categories] = await Promise.all([getRaceData(), getCategories()]);
+  
+  const headerList = headers();
+  const host = headerList.get('host');
+  const protocol = host?.includes('localhost') ? 'http' : 'https';
+  const calendarUrl = `${protocol}://${host}/api/calendar`;
 
   const categoryMap = new Map(categories.map(cat => [cat.categoryId, cat.categoryImage]));
 
@@ -121,7 +126,7 @@ export default async function Home() {
         </main>
 
         <footer className="text-center mt-12">
-            <a href="/api/calendar" >
+            <a href={calendarUrl} >
               <button className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-bold py-3 px-4 rounded-lg inline-flex items-center gap-2">
                 <Calendar size={20} />
                 <span>Suscribirse al Calendario</span>
