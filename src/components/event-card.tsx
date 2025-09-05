@@ -54,53 +54,23 @@ export function EventCard({ event, index }: EventCardProps) {
     return upperPlatform;
   };
   
-  const isFirst = index === 0;
-  const isSecond = index === 1;
-  const isThird = index === 2;
-  const isFourth = index === 3;
-  const isFifth = index === 4;
-  const isSixth = index === 5;
-  
-  let cardStyle = {};
-  if (isFirst) {
-    cardStyle = { 
-      backgroundImage: `url('https://i.postimg.cc/tR807st3/IMAGEN-1.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    };
-  } else if (isSecond) {
-    cardStyle = { 
-      backgroundImage: `url('https://i.postimg.cc/C534YT88/IMAGEN-2.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    };
-  } else if (isThird) {
-    cardStyle = { 
-      backgroundImage: `url('https://i.postimg.cc/Qtnb4Wx0/IMAGEN-3.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    };
-  } else if (isFourth) {
-    cardStyle = { 
-      backgroundImage: `url('https://i.postimg.cc/Y0GxJqvk/IMAGEN-4.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    };
-  } else if (isFifth) {
-    cardStyle = { 
-      backgroundImage: `url('https://i.postimg.cc/FFY59ycF/IMAGEN-5.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    };
-  } else if (isSixth) {
-    cardStyle = { 
-      backgroundImage: `url('https://i.postimg.cc/B6vpBCsj/IMAGEN-6.jpg')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    };
-  }
+  const images = [
+    'https://i.postimg.cc/tR807st3/IMAGEN-1.jpg',
+    'https://i.postimg.cc/C534YT88/IMAGEN-2.jpg',
+    'https://i.postimg.cc/Qtnb4Wx0/IMAGEN-3.jpg',
+    'https://i.postimg.cc/Y0GxJqvk/IMAGEN-4.jpg',
+    'https://i.postimg.cc/FFY59ycF/IMAGEN-5.jpg',
+    'https://i.postimg.cc/B6vpBCsj/IMAGEN-6.jpg',
+  ];
 
-  const textColorClass = isFirst || isSecond || isThird || isFourth || isFifth || isSixth ? 'text-white' : '';
+  const imageIndex = index % images.length;
+  const cardStyle = { 
+    backgroundImage: `url('${images[imageIndex]}')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  };
+
+  const textColorClass = 'text-white';
 
 
   return (
