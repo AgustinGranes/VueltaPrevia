@@ -1,11 +1,8 @@
 
+'use client';
+
 import type { Race, Schedule } from '@/types';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { EventDetailsModal } from './event-details-modal';
 import { CountdownTimer } from './countdown-timer';
 import Image from 'next/image';
 
@@ -46,18 +43,6 @@ export function EventCard({ event }: EventCardProps) {
     if (upperPlatform === 'DISNEYPLUS') return 'DISNEY+';
     if (upperPlatform === 'RALLYTV') return 'RALLY TV';
     return upperPlatform;
-  };
-
-  const formatSessionDate = (timestamp: number) => {
-    const date = new Date(timestamp);
-    const dayName = new Intl.DateTimeFormat('es-ES', { weekday: 'long' }).format(date);
-    const capitalizedDayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
-    const day = date.getDate();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-
-    return `${capitalizedDayName} ${day}/${month}, ${hours}:${minutes}HS`;
   };
 
   return (
@@ -114,32 +99,15 @@ export function EventCard({ event }: EventCardProps) {
             ))}
           </div>
       </div>
-      <Accordion type="single" collapsible className="w-full mt-auto flex-shrink-0">
-          <AccordionItem value="item-1" className="border-none">
-              <AccordionTrigger className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
-                  <span className="flex items-center justify-center w-full">
-                    VER HORARIOS COMPLETOS
-                  </span>
-              </AccordionTrigger>
-              <AccordionContent>
-                {hasSchedules ? (
-                  <ul className="mt-3 px-2 divide-y divide-gray-600">
-                    {schedules.map(session => {
-                        const formattedTime = formatSessionDate(session.startAt);
-                        return (
-                            <li key={session._id} className="flex justify-between items-center py-1.5 gap-2">
-                                <span className="text-gray-300 text-left break-words flex-1">{session.name}</span>
-                                <span className="font-semibold text-white text-right break-words">{formattedTime}</span>
-                            </li>
-                        );
-                    })}
-                  </ul>
-                ) : (
-                  <p className="text-center text-gray-400 mt-3">Horarios sin confirmar aún.</p>
-                )}
-              </AccordionContent>
-          </AccordionItem>
-      </Accordion>
+      
+      <EventDetailsModal event={event}>
+        <div className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 px-4 rounded-lg bg-gray-700/50 mt-auto flex-shrink-0">
+          <span className="flex items-center justify-center w-full">
+            VER HORARIOS COMPLETOS
+          </span>
+        </div>
+      </EventDetailsModal>
+
     </div>
   );
 }
