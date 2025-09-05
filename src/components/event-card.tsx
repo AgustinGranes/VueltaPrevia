@@ -40,9 +40,9 @@ export function EventCard({ event }: EventCardProps) {
 
   const now = new Date().getTime();
   const eventStart = nextSession ? nextSession.startAt : (schedules.length > 0 ? schedules[0].startAt : 0);
-  const fiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
+  const fourDaysInMillis = 4 * 24 * 60 * 60 * 1000;
 
-  if (hasSchedules && eventStart > now + fiveDaysInMillis) {
+  if (hasSchedules && eventStart > now + fourDaysInMillis) {
     return null;
   }
 
