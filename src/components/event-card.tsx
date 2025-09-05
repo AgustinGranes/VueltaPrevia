@@ -119,7 +119,7 @@ export function EventCard({ event, index }: EventCardProps) {
           )}
       </div>
       <div className={`flex flex-col items-center gap-2 flex-shrink-0 h-12 justify-center`}>
-          {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
+          {links && links.length > 0 && <p className="text-xs uppercase text-white">Donde ver:</p>}
           <div className="flex gap-4 items-center">
             {links.map((link, index) => (
                 <div key={`${link._id}-${index}`}>
