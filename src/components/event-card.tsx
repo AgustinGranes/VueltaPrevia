@@ -59,6 +59,7 @@ export function EventCard({ event, index }: EventCardProps) {
   const isThird = index === 2;
   const isFourth = index === 3;
   const isFifth = index === 4;
+  const isSixth = index === 5;
   
   let cardStyle = {};
   if (isFirst) {
@@ -91,9 +92,15 @@ export function EventCard({ event, index }: EventCardProps) {
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     };
+  } else if (isSixth) {
+    cardStyle = { 
+      backgroundImage: `url('https://i.postimg.cc/B6vpBCsj/IMAGEN-6.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    };
   }
 
-  const textColorClass = isFirst || isSecond || isThird || isFourth || isFifth ? 'text-white' : '';
+  const textColorClass = isFirst || isSecond || isThird || isFourth || isFifth || isSixth ? 'text-white' : '';
 
 
   return (
