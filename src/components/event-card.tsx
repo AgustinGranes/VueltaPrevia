@@ -102,9 +102,9 @@ export function EventCard({ event }: EventCardProps) {
             </>
           )}
       </div>
-      <div className="flex flex-col items-center gap-2 flex-shrink-0">
+      <div className="flex flex-col items-center gap-2 flex-shrink-0 h-12 justify-center">
           {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
-          <div className="flex gap-4 items-center h-8">
+          <div className="flex gap-4 items-center">
             {links.map((link, index) => (
                 <div key={`${link._id}-${index}`}>
                   <a href={link.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">
@@ -117,7 +117,7 @@ export function EventCard({ event }: EventCardProps) {
       <Accordion type="single" collapsible className="w-full mt-auto flex-shrink-0">
           <AccordionItem value="item-1" className="border-none">
               <AccordionTrigger className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 rounded-lg bg-gray-700/50 hover:no-underline">
-                  <span className="flex items-center justify-center">
+                  <span className="flex items-center justify-center w-full">
                     VER HORARIOS COMPLETOS
                   </span>
               </AccordionTrigger>
