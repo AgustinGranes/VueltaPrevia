@@ -76,7 +76,10 @@ export function EventCard({ event }: EventCardProps) {
           {hasSchedules ? (
             nextSession ? (
               <>
-                <p className="text-lg font-semibold uppercase mb-1">PARA LA {nextSession.name.replace(/\?/g, '')}</p>
+                <div className="text-lg font-semibold uppercase mb-1 flex flex-wrap justify-center items-center">
+                  <span className="mr-2">PARA LA</span>
+                  <span>{nextSession.name.replace(/\?/g, '')}</span>
+                </div>
                 <CountdownTimer targetDate={nextSession.startAt} />
               </>
             ) : (
