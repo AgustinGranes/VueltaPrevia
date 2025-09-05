@@ -1,5 +1,5 @@
 import { EventCard } from "@/components/event-card";
-import type { Race, Category } from "@/types";
+import type { Race, Category, Schedule } from "@/types";
 
 async function getRaceData(): Promise<Race[]> {
   try {
@@ -57,6 +57,30 @@ async function getCategories(): Promise<Category[]> {
   }
 }
 
+const findNextSessionStart = (schedules: Schedule[]): number | null => {
+  const now = new Date().getTime();
+  const upcomingSessions = schedules
+    .filter(s => s.startAt > now)
+    .sort((a, b) => a.startAt - b.startAt);
+
+  if (upcomingSessions.length > 0) {
+    return upcomingSessions[0].startAt;
+  }
+  
+  if (schedules.length > 0) {
+    // If no upcoming sessions, it could be finished or not started.
+    // If last session is in the past, event is over. Use Infinity to sort at the end.
+    const lastSession = schedules[schedules.length - 1];
+    if (lastSession.startAt < now) {
+      return Infinity; // Event finished, place at the end
+    }
+    // If not finished, it must be an event in the future. Sort by first session.
+    return schedules[0].startAt;
+  }
+
+  return null; // No schedules
+};
+
 export default async function Home() {
   const [races, categories] = await Promise.all([getRaceData(), getCategories()]);
 
@@ -67,6 +91,18 @@ export default async function Home() {
     categoryImage: categoryMap.get(race.categoryId) || race.categoryImage,
   })).filter(event => event.categoryImage);
 
+  const sortedEvents = eventsWithImages.sort((a, b) => {
+    const nextSessionA = findNextSessionStart(a.schedules);
+    const nextSessionB = findNextSessionStart(b.schedules);
+
+    if (nextSessionA === null && nextSessionB === null) return 0;
+    if (nextSessionA === null) return 1;
+    if (nextSessionB === null) return -1;
+    
+    return nextSessionA - nextSessionB;
+  });
+
+
   return (
     <div className="dark">
       <div className="p-4 md:p-8">
@@ -76,7 +112,7 @@ export default async function Home() {
         </header>
 
         <main id="events-container" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {eventsWithImages.map((event) => (
+            {sortedEvents.map((event) => (
               <EventCard key={event._id} event={event} />
             ))}
         </main>
