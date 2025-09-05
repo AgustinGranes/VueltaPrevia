@@ -38,6 +38,14 @@ export function EventCard({ event }: EventCardProps) {
   const nextSession = findNextSession(schedules);
   const hasSchedules = schedules && schedules.length > 0;
 
+  const now = new Date().getTime();
+  const eventStart = nextSession ? nextSession.startAt : (schedules.length > 0 ? schedules[0].startAt : 0);
+  const fiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
+
+  if (hasSchedules && eventStart > now + fiveDaysInMillis) {
+    return null;
+  }
+
   const formatPlatformName = (platform: string) => {
     const upperPlatform = platform.toUpperCase();
     if (upperPlatform === 'DISNEYPLUS') return 'DISNEY+';
@@ -50,7 +58,7 @@ export function EventCard({ event }: EventCardProps) {
       <div className="flex justify-center items-center h-16 flex-shrink-0">
           {categoryImage && <Image src={categoryImage} alt={`${event.category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain" />}
       </div>
-      <div className="text-center flex-grow flex flex-col justify-center">
+      <div className="text-center flex-grow flex flex-col justify-center h-20">
           <h2 className="text-2xl font-syncopate uppercase break-words">{name}</h2>
           <p className="text-sm text-gray-400">{extra ? extra.replace(/\$/g, '') : ''}</p>
       </div>

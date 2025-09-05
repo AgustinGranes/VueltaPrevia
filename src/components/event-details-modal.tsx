@@ -107,4 +107,3 @@ export function EventDetailsModal({ event, children }: EventDetailsModalProps) {
     </Dialog>
   );
 }
-
