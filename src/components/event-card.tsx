@@ -109,11 +109,11 @@ export function EventCard({ event, isFirst = false }: EventCardProps) {
           )}
       </div>
       <div className={`flex flex-col items-center gap-2 flex-shrink-0 h-12 justify-center ${textColorClass}`}>
-          {links && links.length > 0 && <p className="text-xs uppercase text-gray-400">Donde ver:</p>}
+          {links && links.length > 0 && <p className="text-xs uppercase text-white">Donde ver:</p>}
           <div className="flex gap-4 items-center">
             {links.map((link, index) => (
                 <div key={`${link._id}-${index}`}>
-                  <a href={link.link} target="_blank" rel="noopener noreferrer" className={`text-sm font-semibold ${isFirst ? 'text-gray-200 hover:text-white' : 'text-gray-300 hover:text-white'} transition-colors`}>
+                  <a href={link.link} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-white hover:text-gray-200 transition-colors">
                     {formatPlatformName(link.platform)}
                   </a>
                 </div>
