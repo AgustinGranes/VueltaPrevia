@@ -75,7 +75,7 @@ export function EventCard({ event, isFirst = false }: EventCardProps) {
           <h2 className="text-2xl font-syncopate uppercase break-words">{name}</h2>
           <p className="text-sm text-gray-400">{extra ? extra.replace(/\$/g, '') : ''}</p>
       </div>
-      <div id="countdown-container" className="text-center bg-background/80 backdrop-blur-sm p-4 rounded-lg flex-shrink-0">
+      <div id="countdown-container" className="text-center bg-background p-4 rounded-lg flex-shrink-0">
           {hasSchedules ? (
             nextSession ? (
               <>
@@ -122,7 +122,7 @@ export function EventCard({ event, isFirst = false }: EventCardProps) {
       </div>
       
       <EventDetailsModal event={event}>
-        <div className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 px-4 rounded-lg bg-gray-700/50 mt-auto flex-shrink-0">
+        <div className="cursor-pointer text-center text-sm text-yellow-400 hover:text-yellow-300 font-semibold py-2 px-4 rounded-lg bg-background mt-auto flex-shrink-0">
           <span className="flex items-center justify-center w-full">
             VER HORARIOS COMPLETOS
           </span>
