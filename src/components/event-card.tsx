@@ -55,7 +55,7 @@ export function EventCard({ event, isFirst = false }: EventCardProps) {
   };
   
   const cardStyle = isFirst ? { 
-    backgroundImage: `url('https://i.ibb.co/RTqnbW0/IMAGEN-1.jpg')`,
+    backgroundImage: `url('https://i.postimg.cc/tR807st3/IMAGEN-1.jpg')`,
     backgroundSize: 'cover',
     backgroundPosition: 'center'
   } : {};
