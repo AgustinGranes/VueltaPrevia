@@ -30,7 +30,7 @@ async function getRaceData(): Promise<Race[]> {
       ...race,
       schedules: race.schedules.map(schedule => ({
         ...schedule,
-        startAt: schedule.startAt
+        startAt: schedule.startAt + 3 * 60 * 60 * 1000
       }))
     }));
 
@@ -126,7 +126,7 @@ export default async function Home() {
             ))}
         </main>
 
-        <footer className="text-center mt-12">
+        <footer className="text-center pt-8 pb-4">
             <a href={webcalUrl} >
               <button className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-bold py-3 px-4 rounded-lg inline-flex items-center gap-2">
                 <Calendar size={20} />
