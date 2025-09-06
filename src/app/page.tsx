@@ -90,7 +90,8 @@ export default async function Home() {
   const headerList = headers();
   const host = headerList.get('host');
   const protocol = host?.includes('localhost') ? 'http' : 'https';
-  const webcalUrl = `${protocol}://${host}/api/calendar`.replace(/^http/, 'webcal');
+  const calendarUrl = `${protocol}://${host}/api/calendar`;
+  const webcalUrl = calendarUrl.replace(/^https?:\/\//, 'webcal://');
 
 
   const categoryMap = new Map(categories.map(cat => [cat.categoryId, cat.categoryImage]));
