@@ -25,12 +25,12 @@ async function getRaceData(): Promise<Race[]> {
     const data = await response.json();
     const races: Race[] = data.races || [];
 
-    // Adjust all schedule times by subtracting 3 hours
+    // Adjust all schedule times by adding 3 hours
     const adjustedRaces = races.map(race => ({
       ...race,
       schedules: race.schedules.map(schedule => ({
         ...schedule,
-        startAt: schedule.startAt - (3 * 60 * 60 * 1000)
+        startAt: schedule.startAt
       }))
     }));
 
@@ -90,7 +90,7 @@ export default async function Home() {
   const headerList = headers();
   const host = headerList.get('host');
   const protocol = host?.includes('localhost') ? 'http' : 'https';
-  const webcalUrl = `${protocol}://${host}/api/calendar`.replace(/^https?:\/\//, 'webcal://');
+  const webcalUrl = `${protocol}://${host}/api/calendar`.replace(/^http/, 'webcal');
 
 
   const categoryMap = new Map(categories.map(cat => [cat.categoryId, cat.categoryImage]));

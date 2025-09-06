@@ -73,7 +73,7 @@ export async function GET() {
       ...race,
       schedules: race.schedules.map(schedule => ({
         ...schedule,
-        startAt: schedule.startAt - (3 * 60 * 60 * 1000)
+        startAt: schedule.startAt
       }))
     }));
 
