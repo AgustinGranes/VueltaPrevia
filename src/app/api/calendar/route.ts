@@ -66,16 +66,7 @@ export async function GET() {
     }
 
     const data = await response.json();
-    let races: Race[] = data.races || [];
-
-    // Adjust times
-    races = races.map(race => ({
-      ...race,
-      schedules: race.schedules.map(schedule => ({
-        ...schedule,
-        startAt: schedule.startAt + 3 * 60 * 60 * 1000
-      }))
-    }));
+    const races: Race[] = data.races || [];
 
     const icsContent = generateIcsContent(races);
 
