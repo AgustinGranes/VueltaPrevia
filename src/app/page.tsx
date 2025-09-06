@@ -90,7 +90,8 @@ export default async function Home() {
   const headerList = headers();
   const host = headerList.get('host');
   const protocol = host?.includes('localhost') ? 'http' : 'https';
-  const calendarUrl = `${protocol}://${host}/api/calendar`;
+  const webcalUrl = `${protocol}://${host}/api/calendar`.replace(/^https?:\/\//, 'webcal://');
+
 
   const categoryMap = new Map(categories.map(cat => [cat.categoryId, cat.categoryImage]));
 
@@ -126,7 +127,7 @@ export default async function Home() {
         </main>
 
         <footer className="text-center mt-12">
-            <a href={calendarUrl} >
+            <a href={webcalUrl} >
               <button className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-bold py-3 px-4 rounded-lg inline-flex items-center gap-2">
                 <Calendar size={20} />
                 <span>Suscribirse al Calendario</span>
