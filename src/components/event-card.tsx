@@ -78,7 +78,7 @@ export function EventCard({ event, index }: EventCardProps) {
       style={cardStyle}
     >
       <div className="flex justify-center items-center h-16 flex-shrink-0">
-          {categoryImage && <Image src={categoryImage} alt={`${event.category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain" />}
+          {categoryImage && <Image src={categoryImage} alt={`${event.category} Logo`} width={120} height={64} className="max-h-full max-w-full object-contain grayscale" />}
       </div>
       <div className={`text-center flex-grow flex flex-col justify-center h-20 ${textColorClass}`}>
           <h2 className="text-2xl font-syncopate uppercase break-words">{name}</h2>

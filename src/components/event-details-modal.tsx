@@ -56,7 +56,7 @@ export function EventDetailsModal({ event, children }: EventDetailsModalProps) {
                   alt={`${category} Logo`}
                   width={150}
                   height={80}
-                  className="max-h-full max-w-full object-contain"
+                  className="max-h-full max-w-full object-contain grayscale"
                 />
               )}
             </div>
